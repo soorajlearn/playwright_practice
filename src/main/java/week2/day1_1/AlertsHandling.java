@@ -1,4 +1,4 @@
-package week2.day1;
+package week2.day1_1;
 
 import org.junit.Test;
 
@@ -7,7 +7,7 @@ import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 
-public class FrameHandling {
+public class AlertsHandling {
 
 	@Test
 	public void alertsHandling() {
@@ -15,25 +15,26 @@ public class FrameHandling {
 		Playwright pw = Playwright.create();
 		Browser browser = pw.chromium().launch(new BrowserType.LaunchOptions().setChannel("chrome").setHeadless(false));
 		Page page = browser.newPage();
-		page.navigate("https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_prompt");
+		page.navigate("https://www.leafground.com/alert.xhtml");
 		//Listener
-		
-		//String parentFrame = "//div[@id='iframecontainer']/div[@id='iframe']";
-		String childFrame = "//div[@id='iframecontainer']/div[@id='iframe']/div/iframe";
-		
-		page.frameLocator(childFrame)
-			.locator("//button[text()='Try it']").click();
 
 		page.onceDialog(alert ->{
 			String message = alert.message();
 			System.out.println(message);
-			alert.accept("Sooraj");
+			alert.accept();
 		});
 		
-		String output = page.frameLocator(childFrame)
-		.locator("//p[@id='demo']").innerText();
-		
-		System.out.println(output);
+
+		page.locator("(//span[text()='Show'])[1]").click();
+
+		page.onceDialog(alert ->{
+			String message = alert.message();
+			System.out.println(message);
+			alert.dismiss();
+		});
+
+		page.locator("//h5[text()=' Alert (Confirm Dialog)']/following-sibling::button").click();
+
 
 		page.close();
 

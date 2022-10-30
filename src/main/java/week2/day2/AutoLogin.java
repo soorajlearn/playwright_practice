@@ -1,28 +1,27 @@
-package week2.day1;
+package week2.day2;
+
+import java.nio.file.Paths;
 
 import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 
-public class EditLead {
+public class AutoLogin {
 
 	public static void main(String[] args) {
 		
 		Playwright pw = Playwright.create();
 		Browser browser = pw.chromium().launch(new BrowserType.LaunchOptions().setChannel("chrome").setHeadless(false));
-		Page page = browser.newPage();
+		
+		BrowserContext context = browser.newContext(new Browser.NewContextOptions()
+				.setStorageStatePath(Paths.get("login_leaftaps_democsr.json")));
+		
+		Page page = context.newPage();
 		page.navigate("http://leaftaps.com/opentaps/control/main");
 		
-		// Find the username and enter the value
-		page.locator("id=username").type("demosalesmanager");
-		
-		// Find the password and enter the value
-		page.locator("#password").type("crmsfa");
-		
-		// Find the login and click
-		page.locator(".decorativeSubmit").click();
 		
 		// Click on the CRM/SFA
 		page.locator("text=CRM/SFA").click();

@@ -1,4 +1,4 @@
-package week2.day1;
+package week2.day1_1;
 
 import org.junit.jupiter.api.Test;
 

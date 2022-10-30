@@ -1,4 +1,4 @@
-package week2.day1;
+package week2.day1_1;
 
 import java.nio.file.Paths;
 
@@ -10,22 +10,16 @@ import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 
-public class ConsoleMessage_NetworkCalls {
+public class FCLogin {
 	
 	@Test
-	public void consoleMessage() {
+	public void login() {
 		
 		Playwright pw = Playwright.create();
-		Browser browser = pw.chromium().launch(new BrowserType.LaunchOptions().setChannel("chrome").setHeadless(false));
-		//Browser browser = pw.firefox().launch(new BrowserType.LaunchOptions().setHeadless(false));
+		//Browser browser = pw.chromium().launch(new BrowserType.LaunchOptions().setChannel("chrome").setHeadless(false));
+		Browser browser = pw.firefox().launch(new BrowserType.LaunchOptions().setHeadless(false));
 		BrowserContext context = browser.newContext();
 		Page page = context.newPage();
-		
-		page.onConsoleMessage(handler -> {
-			System.out.println(page.url());
-			System.out.println(handler.type());
-			System.out.println(handler.text());
-		});
 		page.navigate("https://branch6-auto116.freshfonehello.com");
 		
 
@@ -38,7 +32,9 @@ public class ConsoleMessage_NetworkCalls {
 		// Find the login and click
 		page.locator("[type=submit]").click();
 		
-		
+		//Store login information
+		context.storageState(
+				new BrowserContext.StorageStateOptions().setPath(Paths.get("login_fc.json")));
 		
 	}
 
